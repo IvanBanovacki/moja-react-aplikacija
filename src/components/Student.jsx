@@ -7,7 +7,7 @@ const Student = ({ studentInfo }) => {
             <p>Last Name: {studentInfo.lastName}</p>
             <p>Age: {studentInfo.age}</p>
             <p>City Of Birth: {studentInfo.placeOfBirth.city}</p>
-            <p>Coutnry Of Birth: {studentInfo.placeOfBirth.country}</p>
+            <p>Country Of Birth: {studentInfo.placeOfBirth.country}</p>
             <p>Zip: {studentInfo.placeOfBirth.zip}</p>
         </div>
     );
