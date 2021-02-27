@@ -1,25 +1,62 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState, useEffect } from 'react';
+import ValidationComponent from './components/ValidationComponent';
+import CharComponent from './components/CharComponent';
+import Student from './components/Student';
+import { getStudent } from './services';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    const [text, setText] = useState('');
+    const [charArray, setCharArray] = useState([]);
+    const [studentInfo, setStudentInfo] = useState(null);
+
+    const handleTextLength = (event) => {
+        setText(event.target.value);
+    };
+
+    const handleDelete = (id) => {
+        let tmpArray = charArray.filter((char, index) => index !== id);
+        setCharArray(tmpArray);
+    };
+
+    useEffect(() => {
+        getStudent()
+            .then((res) => {
+                setStudentInfo(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+    useEffect(() => {
+        setCharArray(text.split(''));
+    }, [text]);
+
+    useEffect(() => {
+        setText(charArray.join(''));
+    }, [charArray]);
+
+    return (
+        <div className="App">
+            <input value={text} type="text" onChange={handleTextLength} />
+            <p>Text length: {text.length}</p>
+            <ValidationComponent textLength={text.length} />
+            <hr />
+            <ul>
+                {charArray.map((char, index) => (
+                    <CharComponent
+                        key={index}
+                        id={index}
+                        char={char}
+                        handleDelete={handleDelete}
+                    />
+                ))}
+            </ul>
+            <hr />
+            {studentInfo ? <Student studentInfo={studentInfo} /> : null}
+        </div>
+    );
+};
 
 export default App;
