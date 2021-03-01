@@ -1,9 +1,9 @@
 import './App.css';
 import { useState, useEffect } from 'react';
+import { getStudent } from './services';
 import ValidationComponent from './components/ValidationComponent';
 import CharComponent from './components/CharComponent';
 import Student from './components/Student';
-import { getStudent } from './services';
 
 const App = () => {
     const [text, setText] = useState('');
@@ -45,12 +45,7 @@ const App = () => {
             <hr />
             <ul>
                 {charArray.map((char, index) => (
-                    <CharComponent
-                        key={index}
-                        id={index}
-                        char={char}
-                        handleDelete={handleDelete}
-                    />
+                    <CharComponent key={index} id={index} char={char} handleDelete={handleDelete} />
                 ))}
             </ul>
             <hr />
